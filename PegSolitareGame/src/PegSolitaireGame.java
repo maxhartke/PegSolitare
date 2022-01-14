@@ -15,7 +15,8 @@ public class PegSolitaireGame {
         System.out.println("WELCOME TO CS300 PEG SOLITAIRE!\n===============================\n");
         System.out.println("Board Style Menu\n1) Cross\n2) Circle\n3) Triangle\n4) Simple T");
         Scanner in = new Scanner(System.in);
-        readValidInt(in, "Choose a board style: ", 1, 4);
+        int boardType = readValidInt(in, "Choose a board style: ", 1, 4);
+        displayBoard(createBoard(boardType));
         System.out.println("==========================================\nTHANK YOU FOR PLAYING CS300 PEG SOLITAIRE!");
     }
 
@@ -38,15 +39,29 @@ public class PegSolitaireGame {
      * @return - the valid integer between min and max entered by the user.
      */
     public static int readValidInt(Scanner in, String prompt, int min, int max) {
-        // TODO: Add error handling for strings
+        int validInt;
+        String userInput;
+        Boolean isValid;
         System.out.print(prompt);
-        // check if integer is in range
-        int userInt = in.nextInt();
-        while (userInt > max || userInt < min) {
+        while (true) {
+            isValid = true;
+            userInput = in.nextLine();
+            if (userInput.length() == 0) {
+                isValid = false;
+            }
+            for (char ch : userInput.toCharArray()) {
+                if (!Character.isDigit(ch)) {
+                    isValid = false;
+                }
+            }
+            if (isValid) {
+                validInt = Integer.parseInt(userInput);
+                if (validInt <= max && validInt >= min) {
+                    return validInt;
+                }
+            }
             System.out.print("Please enter your choice as an integer between " + min + " and " + max + ": ");
-            userInt = in.nextInt();
         }
-        return userInt;
     }
 
     /**
@@ -140,7 +155,25 @@ public class PegSolitaireGame {
      * @param board - the current state of the board being drawn.
      */
     public static void displayBoard(char[][] board) {
-        // TODO: IMPLEMENT THIS METHOD
+        for (int i = 0; i < board.length; i++) {
+            if (i >= 1) {
+                System.out.print(i + 1 + " ");
+            } else {
+                System.out.println(" ");
+            }
+            for (int j = 0; j < board[1].length; j++) {
+                if (i == 0 && j == 0) {
+                    System.out.print("  ");
+                    for (int j2 = 0; j2 < board[1].length; j2++) {
+                        System.out.print(j2 + 1);
+                    }
+                    System.out.println();
+                    System.out.print(i + 1 + " ");
+                }
+                System.out.print(board[i][j]);
+            }
+            System.out.println();
+        }
     }
 
     /**
