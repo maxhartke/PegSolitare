@@ -11,12 +11,27 @@ public class PegSolitaireGame {
      * @param args - any command line arguments may be ignored by this method.
      */
     public static void main(String[] args) {
-        // TODO: IMPLEMENT THIS METHOD
         System.out.println("WELCOME TO CS300 PEG SOLITAIRE!\n===============================\n");
         System.out.println("Board Style Menu\n1) Cross\n2) Circle\n3) Triangle\n4) Simple T");
         Scanner in = new Scanner(System.in);
         int boardType = readValidInt(in, "Choose a board style: ", 1, 4);
-        displayBoard(createBoard(boardType));
+        char[][] board = createBoard(boardType);
+        int pegsRemaining = countPegsRemaining(board);
+        while (pegsRemaining > 1) {
+            displayBoard(board);
+            int[] move = readValidMove(in, board);
+            performMove(board, move[1], move[0], move[2]);
+            pegsRemaining = countPegsRemaining(board);
+            // Game won
+            if (pegsRemaining == 1) {
+                displayBoard(board);
+                System.out.println("Congrats, you won!\n");
+            }
+            // Game lost
+            if (countMovesAvailable(board) == 0) {
+                System.out.println("It looks like there are no more legal moves.  Please try again.\n");
+            }
+        }
         System.out.println("==========================================\nTHANK YOU FOR PLAYING CS300 PEG SOLITAIRE!");
     }
 
@@ -194,8 +209,21 @@ public class PegSolitaireGame {
      *         a valid move and store in that order with an array.
      */
     public static int[] readValidMove(Scanner in, char[][] board) {
-        // TODO: IMPLEMENT THIS METHOD
-        return null;
+        int column, row, direction;
+        int[] userMove = new int[3];
+        Boolean isValid = false;
+        while (!isValid) {
+            column = readValidInt(in, "Choose the COLUMN of a peg you'd like to move: ", 1, board[1].length);
+            row = readValidInt(in, "Choose the ROW of a peg you'd like to move: ", 1, board.length);
+            direction = readValidInt(in, "Choose a DIRECTION to move that peg 1) UP, 2) DOWN, 3) LEFT, or 4) RIGHT: ",
+                    1,
+                    4);
+            isValid = isValidMove(board, row, column, direction);
+            userMove[0] = column;
+            userMove[1] = row;
+            userMove[2] = direction;
+        }
+        return userMove;
     }
 
     /**
@@ -219,7 +247,43 @@ public class PegSolitaireGame {
      * @return - true when the proposed move is legal, otherwise false.
      */
     public static boolean isValidMove(char[][] board, int row, int column, int direction) {
-        // TODO: IMPLEMENT THIS METHOD
+        // Adjust parameters because arrays are zero-base indexed
+        row--;
+        column--;
+        // 1)there must be a peg at position row, column within the board
+        if (board[row][column] == '@') {
+            // 2)there must be another peg neighboring that first one in the specified
+            // direction
+            char neighbor;
+            char neighborNeighbor;
+            // UP
+            if (direction == 1) {
+                neighbor = board[row - 1][column];
+                neighborNeighbor = board[row - 2][column];
+            }
+            // DOWN
+            else if (direction == 2) {
+                neighbor = board[row + 1][column];
+                neighborNeighbor = board[row + 2][column];
+            }
+            // LEFT
+            else if (direction == 3) {
+                neighbor = board[row][column - 1];
+                neighborNeighbor = board[row][column - 2];
+            }
+            // RIGHT
+            else {
+                neighbor = board[row][column + 1];
+                neighborNeighbor = board[row][column + 2];
+            }
+            if (neighbor == '@') {
+                // 3)there must be an empty hole on the other side of that neighboring peg
+                // (further in the specified direction)
+                if (neighborNeighbor == '-') {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -237,7 +301,32 @@ public class PegSolitaireGame {
      * @return - the updated board state after the specified move is taken.
      */
     public static char[][] performMove(char[][] board, int row, int column, int direction) {
-        // TODO: IMPLEMENT THIS METHOD
+        // Adjust parameters because arrays are zero-base indexed
+        row--;
+        column--;
+        // Remove peg from initial position
+        board[row][column] = '-';
+        // Remove peg that was jumped over and add peg to new position
+        // UP
+        if (direction == 1) {
+            board[row - 1][column] = '-';
+            board[row - 2][column] = '@';
+        }
+        // DOWN
+        else if (direction == 2) {
+            board[row + 1][column] = '-';
+            board[row + 2][column] = '@';
+        }
+        // LEFT
+        else if (direction == 3) {
+            board[row][column - 1] = '-';
+            board[row][column - 2] = '@';
+        }
+        // RIGHT
+        else {
+            board[row][column + 1] = '-';
+            board[row][column + 2] = '@';
+        }
         return null;
     }
 
@@ -249,8 +338,15 @@ public class PegSolitaireGame {
      * @return - the number of pegs found in that board.
      */
     public static int countPegsRemaining(char[][] board) {
-        // TODO: IMPLEMENT THIS METHOD
-        return 0;
+        int pegsRemaining = 0;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[1].length; j++) {
+                if (board[i][j] == '@') {
+                    pegsRemaining++;
+                }
+            }
+        }
+        return pegsRemaining;
     }
 
     /**
@@ -267,7 +363,7 @@ public class PegSolitaireGame {
      */
     public static int countMovesAvailable(char[][] board) {
         // TODO: IMPLEMENT THIS METHOD
-        return 0;
+        return 10;
     }
 
 }
