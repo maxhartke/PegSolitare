@@ -26,10 +26,13 @@ public class PegSolitaireGame {
             if (pegsRemaining == 1) {
                 displayBoard(board);
                 System.out.println("Congrats, you won!\n");
+                break;
             }
             // Game lost
             if (countMovesAvailable(board) == 0) {
+                displayBoard(board);
                 System.out.println("It looks like there are no more legal moves.  Please try again.\n");
+                break;
             }
         }
         System.out.println("==========================================\nTHANK YOU FOR PLAYING CS300 PEG SOLITAIRE!");
@@ -222,6 +225,27 @@ public class PegSolitaireGame {
             userMove[0] = column;
             userMove[1] = row;
             userMove[2] = direction;
+            if (!isValid) {
+                String strDirection = "";
+                if (direction == 1) {
+                    strDirection = "UP";
+                }
+                ;
+                if (direction == 2) {
+                    strDirection = "DOWN";
+                }
+                ;
+                if (direction == 3) {
+                    strDirection = "LEFT";
+                }
+                ;
+                if (direction == 4) {
+                    strDirection = "RIGHT";
+                }
+                ;
+                System.out.println("Moving a peg from row " + userMove[1] + " and column " + userMove[0]
+                        + " " + strDirection + " is not currently a legal move.\n");
+            }
         }
         return userMove;
     }
@@ -250,6 +274,26 @@ public class PegSolitaireGame {
         // Adjust parameters because arrays are zero-base indexed
         row--;
         column--;
+        int l = board.length - 1;
+
+        // check if any positions are out of bounds
+        // top
+        if (row < 2 && direction == 1) {
+            return false;
+        }
+        // bottom
+        if (row > l - 2 && direction == 2) {
+            return false;
+        }
+        // left
+        if (column < 2 && direction == 3) {
+            return false;
+        }
+        // right
+        if (column > l - 2 && direction == 4) {
+            return false;
+        }
+
         // 1)there must be a peg at position row, column within the board
         if (board[row][column] == '@') {
             // 2)there must be another peg neighboring that first one in the specified
@@ -362,8 +406,17 @@ public class PegSolitaireGame {
      * @return - the number of legal moves found in that board.
      */
     public static int countMovesAvailable(char[][] board) {
-        // TODO: IMPLEMENT THIS METHOD
-        return 10;
+        int movesAvailable = 0;
+        for (int i = 1; i < board.length + 1; i++) {
+            for (int j = 1; j < board[1].length + 1; j++) {
+                for (int j2 = 1; j2 < 5; j2++) {
+                    if (isValidMove(board, i, j, j2)) {
+                        movesAvailable++;
+                    }
+                }
+            }
+        }
+        return movesAvailable;
     }
 
 }
