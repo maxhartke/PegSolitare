@@ -1,16 +1,75 @@
-# [PEG-SOLITAIRE-GAME-CS300](https://cs300-www.cs.wisc.edu/wp/peg-solitaire/)
+# Peg Solitare
 
-This assignment has been designed as a self-assessment for students considering enrollment in CS300. Our expectation is that well prepared students should be comfortable completing an assignment like this within two weeks (or about 15 hours, since CS300 is a 3 credit class).
+[Project Description](https://cs300-www.cs.wisc.edu/wp/peg-solitaire/)
 
-Although students will use Java to complete their CS300 assignments, this self-assessment can be completed in whatever language you feel most comfortable working. Students with sufficient experience in languages like: C, C++, Javascript, Python, Matlab, and others can expect to find many familiar data types and control structures in Java. Experience with designing, implementing, testing, and debugging code written in these kinds of languages should transfer nicely toward developing code in Java. You’ll note in the required organization below that your solution will be in a more procedure-oriented rather than object-oriented form. This is because the later organizational paradigm will be taught in CS300.
+## Running Locally
 
-The rest of this document is organized into the following sections:
+```bash
+gh repo clone maxhartke/PegSolitare
+cd PegSolitare
+```
 
-The Rules of Peg Solitaire – The rules of the game you are implementing for this assignment.
-Organizational Requirements – How your solution to this assignment must be organized.
-Sample Runs – Demonstrate the output of a working implementation.
-Code Templates – Files containing method stubs, ready for you to implement.
-THE RULES OF PEG SOLITAIRE
-Peg solitaire is a board game (or puzzle) in which a single player takes turns removing pegs from a board until either: they have removed all but the final peg to win the game, or they have lost because there are no legal moves left for them to make despite more than one peg remaining on the board. The number of pegs and board-shapes vary, but these pegs are always set into holes arranged in a grid on the board. A legal move involves jumping one peg over a neighboring peg to rest in a hole on the other side, and then removing the peg that was jumped over. Diagonal jumps are not allowed. In the following examples, an at sign (@) is used to represent the position of pegs, and a dash (-) is used to represent the position of an empty holes.
+## Sample Run
 
-More information about this game is available on [Peg Solitaire Game on Wikipedia](https://en.wikipedia.org/wiki/Peg_solitaire).
+```
+WELCOME TO CS300 PEG SOLITAIRE!
+===============================
+
+Board Style Menu
+  1) Cross
+  2) Circle
+  3) Triangle
+  4) Simple T
+Choose a board style: 4
+
+  12345
+1 -----
+2 -@@@-
+3 --@--
+4 --@--
+5 -----
+Choose the COLUMN of a peg you'd like to move: 3
+Choose the ROW of a peg you'd like to move: 2
+Choose a DIRECTION to move that peg 1) UP, 2) DOWN, 3) LEFT, or 4) RIGHT: 4
+
+  12345
+1 -----
+2 -@--@
+3 --@--
+4 --@--
+5 -----
+Choose the COLUMN of a peg you'd like to move: 3
+Choose the ROW of a peg you'd like to move: 4
+Choose a DIRECTION to move that peg 1) UP, 2) DOWN, 3) LEFT, or 4) RIGHT: 1
+
+  12345
+1 -----
+2 -@@-@
+3 -----
+4 -----
+5 -----
+Choose the COLUMN of a peg you'd like to move: 2
+Choose the ROW of a peg you'd like to move: 2
+Choose a DIRECTION to move that peg 1) UP, 2) DOWN, 3) LEFT, or 4) RIGHT: 4
+
+  12345
+1 -----
+2 ---@@
+3 -----
+4 -----
+5 -----
+Choose the COLUMN of a peg you'd like to move: 5
+Choose the ROW of a peg you'd like to move: 2
+Choose a DIRECTION to move that peg 1) UP, 2) DOWN, 3) LEFT, or 4) RIGHT: 3
+
+  12345
+1 -----
+2 --@--
+3 -----
+4 -----
+5 -----
+Congrats, you won!
+
+==========================================
+THANK YOU FOR PLAYING CS300 PEG SOLITAIRE!
+```
